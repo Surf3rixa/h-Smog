@@ -1,0 +1,1148 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ALEX MERCER // 2016-2019 HYPE PORTFOLIO</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800;900&family=Space+Grotesk:wght@500;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        'hype-magenta': '#ff007f',
+                        'hype-cyan': '#00f0ff',
+                        'hype-purple': '#7000ff',
+                        'hype-yellow': '#ffe600',
+                        'hype-lime': '#39ff14',
+                        'hype-dark': '#0d0714',
+                        'hype-card': 'rgba(255, 255, 255, 0.07)',
+                    },
+                    fontFamily: {
+                        'syne': ['"Syne"', 'sans-serif'],
+                        'outfit': ['"Outfit"', 'sans-serif'],
+                        'space': ['"Space Grotesk"', 'sans-serif'],
+                    },
+                    animation: {
+                        'spin-slow': 'spin 12s linear infinite',
+                        'float': 'float 4s ease-in-out infinite',
+                        'pulse-glow': 'pulseGlow 2s ease-in-out infinite',
+                        'marquee': 'marquee 18s linear infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px) rotate(0deg)' },
+                            '50%': { transform: 'translateY(-12px) rotate(3deg)' }
+                        },
+                        pulseGlow: {
+                            '0%, 100%': { filter: 'drop-shadow(0 0 15px rgba(255,0,127,0.6))' },
+                            '50%': { filter: 'drop-shadow(0 0 25px rgba(0,240,255,0.8))' }
+                        },
+                        marquee: {
+                            '0%': { transform: 'translateX(0%)' },
+                            '100%': { transform: 'translateX(-50%)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Background Grid Pattern */
+        .bg-grid-pattern {
+            background-size: 40px 40px;
+            background-image: 
+                linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+        }
+        .light .bg-grid-pattern {
+            background-image: 
+                linear-gradient(to right, rgba(0, 0, 0, 0.06) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0, 0, 0, 0.06) 1px, transparent 1px);
+        }
+
+        /* Glassmorphism Cards */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            box-shadow: 0 12px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+        .light .glass-card {
+            background: rgba(255, 255, 255, 0.75);
+            border: 1px solid rgba(0, 0, 0, 0.12);
+            box-shadow: 0 12px 32px 0 rgba(112, 0, 255, 0.12);
+        }
+
+        /* Hard Neo-brutalist / Streetwear Shadows */
+        .hype-shadow {
+            box-shadow: 6px 6px 0px 0px #ff007f;
+        }
+        .hype-shadow-cyan {
+            box-shadow: 6px 6px 0px 0px #00f0ff;
+        }
+        .hype-shadow-yellow {
+            box-shadow: 6px 6px 0px 0px #ffe600;
+        }
+
+        /* Holographic Text Gradient */
+        .text-holo {
+            background: linear-gradient(135deg, #ff007f 0%, #00f0ff 50%, #ffe600 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Interactive Dragging Stickers */
+        .sticker {
+            user-select: none;
+            cursor: grab;
+            transition: transform 0.15s ease, filter 0.15s ease;
+        }
+        .sticker:active {
+            cursor: grabbing;
+            transform: scale(1.15) rotate(5deg);
+        }
+
+        /* Audio Equalizer Bars */
+        .eq-bar {
+            width: 4px;
+            background: linear-gradient(to top, #ff007f, #00f0ff);
+            border-radius: 2px;
+            animation: bounce 0.6s ease-in-out infinite alternate;
+        }
+        @keyframes bounce {
+            0% { height: 4px; }
+            100% { height: 28px; }
+        }
+
+        /* Hide scrollbars for clean UI */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="bg-hype-dark text-white font-outfit min-h-screen transition-colors duration-300 bg-grid-pattern relative overflow-x-hidden selection:bg-hype-magenta selection:text-white dark">
+
+    <!-- CANVAS FOR CURSOR SPARKLE TRAIL -->
+    <canvas id="trail-canvas" class="fixed inset-0 pointer-events-none z-[999] opacity-80"></canvas>
+
+    <!-- TOP TICKER MARQUEE BANNER -->
+    <div class="bg-gradient-to-r from-hype-magenta via-hype-purple to-hype-cyan text-black font-syne font-extrabold text-xs tracking-widest py-1.5 overflow-hidden border-b-2 border-black z-50 relative">
+        <div class="flex whitespace-nowrap animate-marquee">
+            <span class="mx-4">🔥 AVAILABLE FOR FREELANCE & FULL-TIME ROLES</span> • 
+            <span class="mx-4">⚡ CREATIVE FULL-STACK ENGINEER</span> • 
+            <span class="mx-4">💿 2016-2019 VIBES ONLY</span> • 
+            <span class="mx-4">🚀 UI/UX & WEB3 ARCHITECT</span> • 
+            <span class="mx-4">🎨 DIGITAL SCRAPBOOK PORTFOLIO</span> •
+            <span class="mx-4">🔥 AVAILABLE FOR FREELANCE & FULL-TIME ROLES</span> • 
+            <span class="mx-4">⚡ CREATIVE FULL-STACK ENGINEER</span> • 
+            <span class="mx-4">💿 2016-2019 VIBES ONLY</span> • 
+            <span class="mx-4">🚀 UI/UX & WEB3 ARCHITECT</span> • 
+            <span class="mx-4">🎨 DIGITAL SCRAPBOOK PORTFOLIO</span>
+        </div>
+    </div>
+
+    <!-- NAVIGATION BAR -->
+    <nav class="sticky top-0 z-40 backdrop-blur-md bg-hype-dark/80 border-b border-white/10 px-4 lg:px-12 py-3 flex justify-between items-center transition-colors">
+        <a href="#hero" class="flex items-center gap-2 group">
+            <div class="w-9 h-9 rounded-lg bg-gradient-to-tr from-hype-magenta to-hype-cyan flex items-center justify-center font-syne font-black text-black text-xl group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(255,0,127,0.5)]">
+                A
+            </div>
+            <span class="font-syne font-extrabold text-lg tracking-wider text-white group-hover:text-hype-cyan transition-colors">ALEX.DEV<span class="text-hype-magenta">_</span></span>
+        </a>
+
+        <!-- Desktop Menu -->
+        <div class="hidden md:flex items-center gap-8 font-space text-sm font-bold tracking-wide">
+            <a href="#about" class="hover:text-hype-cyan transition-colors">// ABOUT</a>
+            <a href="#projects" class="hover:text-hype-magenta transition-colors">// DROPS</a>
+            <a href="#skills" class="hover:text-hype-yellow transition-colors">// SKILLS</a>
+            <a href="#experience" class="hover:text-hype-lime transition-colors">// TIMELINE</a>
+            <a href="#contact" class="hover:text-hype-cyan transition-colors">// CONTACT</a>
+        </div>
+
+        <!-- Controls (Sound, Theme, Mobile Toggle) -->
+        <div class="flex items-center gap-3">
+            <button id="sfx-toggle" onclick="toggleAudioFX()" title="Toggle SFX Sound" class="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 flex items-center justify-center text-hype-cyan transition-all">
+                <i class="fa-solid fa-volume-high" id="sfx-icon"></i>
+            </button>
+            <button id="theme-toggle" onclick="toggleTheme()" title="Toggle Light/Dark Theme" class="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 flex items-center justify-center text-hype-yellow transition-all">
+                <i class="fa-solid fa-moon" id="theme-icon"></i>
+            </button>
+            <a href="#contact" class="hidden sm:inline-flex px-4 py-1.5 rounded-full bg-gradient-to-r from-hype-magenta to-hype-purple text-white font-syne font-bold text-xs uppercase tracking-wider hover:opacity-90 hover:scale-105 transition-all shadow-[0_0_15px_rgba(255,0,127,0.4)]">
+                Hire Me
+            </a>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION / STICKER SCRAPBOOK CANVAS -->
+    <section id="hero" class="relative min-h-[90vh] flex flex-col justify-center items-center px-4 pt-8 pb-16 overflow-hidden">
+        
+        <!-- Ambient Glowing Orbs Background -->
+        <div class="absolute top-1/4 left-1/4 w-72 h-72 bg-hype-magenta/30 rounded-full blur-[120px] pointer-events-none"></div>
+        <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-hype-cyan/25 rounded-full blur-[140px] pointer-events-none"></div>
+
+        <!-- DRAGGABLE STICKER SCRAPBOOK LAYER -->
+        <div id="sticker-container" class="absolute inset-0 pointer-events-auto z-20 overflow-hidden">
+            <!-- Sticker 1: Cassette Tape -->
+            <div class="sticker absolute top-16 left-6 md:left-24 rotate-[-12deg]" style="top: 15%; left: 8%;" title="Drag me!">
+                <div class="glass-card px-3 py-2 rounded-xl border-2 border-hype-cyan bg-hype-dark/90 flex items-center gap-2 shadow-2xl">
+                    <span class="font-space text-xs font-bold text-hype-cyan">Current project</span>
+                </div>
+            </div>
+            <!-- Sticker 2: Flame Emoji Badge -->
+            <div class="sticker absolute rotate-[15deg]" style="top: 25%; right: 10%;" title="Drag me!">
+                <div class="bg-gradient-to-r from-hype-yellow to-hype-magenta p-0.5 rounded-full shadow-[0_0_20px_rgba(255,230,0,0.6)]">
+                    <div class="bg-black px-4 py-1.5 rounded-full flex items-center gap-2">
+                        <span class="text-xl">🔥</span>
+                        <span class="font-syne font-extrabold text-xs text-hype-yellow uppercase">Under development</span>
+                    </div>
+                </div>
+            </div>
+            <!-- Sticker 3: Vaporwave Sun -->
+            <div class="sticker absolute rotate-[-6deg]" style="bottom: 20%; left: 12%;" title="Drag me!">
+                <div class="glass-card p-2 rounded-2xl border border-hype-magenta text-center">
+                    <div class="w-12 h-12 rounded-full bg-gradient-to-b from-hype-yellow via-hype-magenta to-hype-purple mx-auto flex items-center justify-center text-2xl shadow-lg">
+                        🌴
+                    </div>
+                    <span class="font-space text-[10px] text-white font-bold block mt-1"></span>
+                </div>
+            </div>
+            <!-- Sticker 4: Verified Hype Badge -->
+            <div class="sticker absolute rotate-[8deg]" style="bottom: 18%; right: 14%;" title="Drag me!">
+                <div class="bg-hype-lime text-black font-syne font-black text-xs px-3 py-1 rounded-md border-2 border-black rotate-3 hype-shadow shadow-black">
+                    <i class="fa-solid fa-circle-check"></i> VERIFIED DEV
+                </div>
+            </div>
+        </div>
+
+        <!-- HERO CONTENT -->
+        <div class="relative z-30 text-center max-w-4xl mx-auto space-y-6">
+            
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-xs font-space tracking-wide text-hype-cyan">
+                <span class="w-2 h-2 rounded-full bg-hype-lime animate-ping"></span>
+                <span>STATUS: Open to work</span>
+            </div>
+
+            <h1 class="text-5xl sm:text-7xl lg:text-8xl font-syne font-black tracking-tight leading-none">
+                <span class="text-holo animate-pulse-glow">AskSAI /</span> <br>
+                
+            </h1>
+
+            <p class="text-base sm:text-xl font-space text-gray-300 max-w-2xl mx-auto leading-relaxed">
+                My Project <strong class="text-hype-yellow">AskSAI</strong>. is an enterprise-ready retail intelligence assistant 
+                that bridges the gap between non-technical stakeholders and 
+                complex relational databases. By leveraging state-of-the-art 
+                Large Language Models (Google Gemini) and LangChain, AskSAI 
+                converts natural language questions (e.g., "Which store has 
+                the highest footfall?") into secure, highly optimized SQL 
+                queries, executes them safely, and returns actionable insights 
+                via a Streamlit analytics dashboard..
+            </p>
+
+            <!-- ACTION BUTTONS -->
+            <div class="flex flex-wrap justify-center gap-4 pt-4">
+                <a href="#projects" class="px-8 py-3.5 rounded-xl bg-gradient-to-r from-hype-magenta via-hype-purple to-hype-cyan text-white font-syne font-extrabold text-sm tracking-wider uppercase hype-shadow hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all">
+                    Explore Drops <i class="fa-solid fa-arrow-down-long ml-2"></i>
+                </a>
+                <a href="#contact" class="px-8 py-3.5 rounded-xl bg-white/10 border-2 border-white/30 text-white font-syne font-extrabold text-sm tracking-wider uppercase hover:bg-white hover:text-black transition-all">
+                    Get In Touch <i class="fa-solid fa-paper-plane ml-2"></i>
+                </a>
+            </div>
+
+            <!-- Sticker Stamp Hint -->
+            <p class="text-xs font-space text-gray-400 pt-6">
+            </p>
+        </div>
+
+        <!-- FLOATING MUSIC PLAYER WIDGET (SPOTIFY 2017 STYLE) -->
+        <div id="music-player" class="fixed bottom-6 right-6 z-50 glass-card p-3 rounded-2xl w-80 shadow-2xl border-2 border-hype-magenta/50 transition-transform duration-300">
+            <div class="flex items-center justify-between border-b border-white/10 pb-2 mb-2">
+                <div class="flex items-center gap-2">
+                    <span class="w-2.5 h-2.5 rounded-full bg-hype-magenta animate-pulse"></span>
+                    <span class="font-space text-xs font-extrabold text-hype-magenta tracking-wider uppercase">SPOTIFY 2017 WRAPPED</span>
+                </div>
+                <button onclick="togglePlayerMinimize()" class="text-gray-400 hover:text-white text-xs">
+                    <i class="fa-solid fa-minus" id="min-player-icon"></i>
+                </button>
+            </div>
+
+            <div id="player-body" class="flex items-center gap-3">
+                <!-- Album Art Vinyl -->
+                <div class="relative w-14 h-14 flex-shrink-0">
+                    <img id="album-art" src="https://placehold.co/120x120/ff007f/ffffff?text=VIBE+17" alt="Album Cover" class="w-full h-full object-cover rounded-xl shadow-md border border-white/20">
+                    <div id="vinyl-spin" class="absolute inset-0 rounded-full border-2 border-dashed border-white/40 animate-spin-slow opacity-0"></div>
+                </div>
+
+                <!-- Track Info & Controls -->
+                <div class="flex-1 overflow-hidden">
+                    <h4 id="track-title" class="font-syne font-bold text-sm text-white truncate">Synthpop Sunset '17</h4>
+                    <p id="track-artist" class="font-space text-xs text-gray-400 truncate">Vaporwave Collective</p>
+
+                    <!-- Animated Audio Spectrum Bars -->
+                    <div class="flex items-end gap-1 h-5 my-1" id="eq-container">
+                        <div class="eq-bar" style="animation-delay: 0.1s"></div>
+                        <div class="eq-bar" style="animation-delay: 0.3s"></div>
+                        <div class="eq-bar" style="animation-delay: 0.2s"></div>
+                        <div class="eq-bar" style="animation-delay: 0.4s"></div>
+                        <div class="eq-bar" style="animation-delay: 0.15s"></div>
+                        <div class="eq-bar" style="animation-delay: 0.35s"></div>
+                    </div>
+
+                    <!-- Player Controls -->
+                    <div class="flex items-center justify-between pt-1">
+                        <button onclick="prevTrack()" class="text-gray-300 hover:text-hype-cyan text-xs"><i class="fa-solid fa-backward-step"></i></button>
+                        <button id="play-btn" onclick="togglePlayMusic()" class="w-7 h-7 rounded-full bg-gradient-to-r from-hype-magenta to-hype-cyan flex items-center justify-center text-black text-xs font-bold hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-play" id="play-icon"></i>
+                        </button>
+                        <button onclick="nextTrack()" class="text-gray-300 hover:text-hype-cyan text-xs"><i class="fa-solid fa-forward-step"></i></button>
+                        
+                        <div class="flex items-center gap-1 w-16">
+                            <i class="fa-solid fa-volume-low text-[10px] text-gray-400"></i>
+                            <input type="range" id="volume-slider" min="0" max="1" step="0.05" value="0.5" oninput="setVolume(this.value)" class="w-full h-1 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-hype-magenta">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- INTERACTIVE HYPE METER & STATS DASHBOARD -->
+    <section id="about" class="py-16 px-4 lg:px-12 relative z-30">
+        <div class="max-w-6xl mx-auto space-y-12">
+            
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-end border-b border-white/10 pb-6 gap-4">
+                <div>
+                    <span class="font-space text-xs font-extrabold text-hype-cyan tracking-widest"></span>
+                    <h2 class="text-4xl md:text-5xl font-syne font-black">ABOUT THE DEV.</h2>
+                </div>
+                <div class="glass-card px-4 py-2 rounded-xl flex items-center gap-3">
+                    <span class="w-3 h-3 rounded-full bg-hype-lime animate-ping"></span>
+                    <span class="font-space text-xs font-bold">STATUS: CODING & CREATING</span>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Bio Card -->
+                <div class="md:col-span-2 glass-card p-6 md:p-8 rounded-3xl space-y-4 border-l-4 border-l-hype-magenta">
+                    <h3 class="text-2xl font-syne font-extrabold text-hype-yellow">Passionate about Next-Gen Web and AI Technologies</h3>
+                    <p class="font-space text-gray-300 leading-relaxed text-sm md:text-base">
+                        With over 3 years of engineering experience, I handful my work Experience bold with robust modern AI Engineering. Focused on building powerful AI projects and security research on systems, network and backend microservices, frontend applications, and application programming interfaces(API).
+                    </p>
+                    <div class="grid grid-cols-2 gap-4 pt-2 font-space text-xs">
+                        <div class="bg-white/5 p-3 rounded-xl border border-white/10">
+                            <span class="text-gray-400 block">Location</span>
+                            <strong class="text-white text-sm">Tamilnadu, india</strong>
+                        </div>
+                        <div class="bg-white/5 p-3 rounded-xl border border-white/10">
+                            <span class="text-gray-400 block">Experience</span>
+                            <strong class="text-white text-sm">3+ Years Active</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hype Meter Interactive Widget -->
+                <div class="glass-card p-6 rounded-3xl space-y-4 border-t-4 border-t-hype-cyan flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-center mb-2">
+                            <h4 class="font-syne font-bold text-sm text-hype-cyan">Workflows</h4>
+                        </div>
+                        <div class="w-full bg-black/50 h-4 rounded-full p-0.5 border border-white/10 overflow-hidden">
+                            <div class="bg-gradient-to-r from-hype-magenta via-hype-purple to-hype-cyan h-full rounded-full w-[94%] animate-pulse"></div>
+                        </div>
+                    </div>
+
+                    <!-- Interactive Stat Counters -->
+                    <div class="space-y-3 font-space">
+                        <button onclick="incrementStat('coffee')" class="w-full bg-white/5 hover:bg-white/10 p-3 rounded-xl flex justify-between items-center border border-white/10 transition-colors text-xs">
+                            <span class="text-gray-300">Pending Projects</span>
+                            <strong id="stat-coffee" class="text-hype-yellow text-sm">5</strong>
+                        </button>
+                        <button onclick="incrementStat('commits')" class="w-full bg-white/5 hover:bg-white/10 p-3 rounded-xl flex justify-between items-center border border-white/10 transition-colors text-xs">
+                            <span class="text-gray-300">Total Projects </span>
+                            <strong id="stat-commits" class="text-hype-cyan text-sm">3</strong>
+                        </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- INSTAGRAM / HYPEBEAST DROP STYLE PROJECT GALLERY -->
+    <section id="projects" class="py-16 px-4 lg:px-12 relative z-30">
+        <div class="max-w-6xl mx-auto space-y-8">
+            
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-end border-b border-white/10 pb-6 gap-4">
+                <div>
+                    <span class="font-space text-xs font-extrabold text-hype-magenta tracking-widest">// RECENT COMMITMENTS</span>
+                    <h2 class="text-4xl md:text-5xl font-syne font-black">PROJECT TEAM.</h2>
+                </div>
+
+                <!-- Category Filters -->
+                <div class="flex flex-wrap gap-2 font-space text-xs">
+                    <button onclick="filterProjects('all')" class="project-filter-btn active px-4 py-2 rounded-xl bg-hype-magenta text-black font-extrabold uppercase transition-all">ALL MEMBERS</button>
+                    <button onclick="filterProjects('fullstack')" class="project-filter-btn px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold uppercase transition-all">AskSAI</button>
+                    <button onclick="filterProjects('creative')" class="project-filter-btn px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold uppercase transition-all">ARUN S</button>
+                    <button onclick="filterProjects('ai')" class="project-filter-btn px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold uppercase transition-all">KAPIL</button>
+                </div>
+            </div>
+
+            <!-- PROJECTS GRID (Streetwear / Instagram Style Cards) -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="projects-grid">
+                
+                <!-- Project 0: Smart-City Smog Forecaster (Featured Physics-AI Drop) -->
+                <div class="project-card ai glass-card rounded-3xl overflow-hidden group hover:scale-[1.02] transition-all duration-300 border-2 border-transparent hover:border-hype-cyan relative flex flex-col justify-between">
+                    <div>
+                        <!-- Image Container with Hover Zoom -->
+                        <div class="relative h-56 overflow-hidden bg-slate-950 flex items-center justify-center">
+                            <div class="absolute inset-0 bg-gradient-to-br from-emerald-950/80 via-black to-slate-950"></div>
+                            <div class="relative text-center p-6 space-y-2">
+                                <span class="text-4xl">🌫️ ⚡</span>
+                                <div class="font-syne font-black text-xl text-hype-cyan tracking-wider">SMOG FORECASTER</div>
+                                <div class="text-[10px] font-space text-gray-400">JAX · DIFFRAX · EQUINOX · FLASK API</div>
+                            </div>
+                            <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80"></div>
+                        </div>
+
+                        <!-- Content -->
+                        <div class="p-6 space-y-3">
+                            <div class="flex justify-between items-center">
+                                <span class="font-space text-xs text-hype-cyan">// PHYSICS-AI ATMOSPHERIC KINETICS</span>
+                                <button onclick="likeProject(4)" class="text-xs font-space text-gray-300 hover:text-hype-magenta">
+                                    <i class="fa-solid fa-heart text-hype-magenta mr-1"></i> <span id="like-count-4">892</span>
+                                </button>
+                            </div>
+                            <h3 class="text-2xl font-syne font-extrabold text-white group-hover:text-hype-cyan transition-colors">HyperLocal Smog Forecaster</h3>
+                            <p class="font-space text-xs text-gray-300 leading-relaxed">
+                                Next-gen atmospheric kinetics forecaster predicting ground-level Ozone (O₃), NO₂, and NO 60 minutes ahead by fusing stiff ODE solvers with neural rate corrections.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Footer Tags & Actions -->
+                    <div class="px-6 pb-6 pt-2 flex justify-between items-center border-t border-white/10 font-space text-xs">
+                        <div class="flex gap-1.5 flex-wrap">
+                            <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 text-[10px]">Python</span>
+                            <span class="px-2 py-0.5 rounded bg-sky-500/20 text-sky-300 text-[10px]">JAX</span>
+                            <span class="px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 text-[10px]">Diffrax</span>
+                            <span class="px-2 py-0.5 rounded bg-white/10 text-[10px]">Flask</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <a id="card-weatherproj-link" href="https://weatherproject-api.onrender.com" target="_blank" class="text-hype-cyan hover:underline font-bold flex items-center gap-1" title="Open Live Web Application">
+                                Demo <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                            </a>
+                            <button onclick="openModal('HyperLocal Smog Forecaster', 'Physics-informed atmospheric chemistry engine. Solves stiff differential equations in real-time using Diffrax Kvaerno3 Runge-Kutta while an Equinox neural network adapts reaction rates to urban heat and traffic congestion.', 'https://placehold.co/800x500/064e3b/ffffff?text=Physics-AI+Smog+Forecaster+Engine', 'https://weatherproject-api.onrender.com', 'https://github.com')" class="text-hype-yellow hover:underline font-bold">
+                                View <i class="fa-solid fa-circle-info"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 1 -->
+                <div class="project-card fullstack glass-card rounded-3xl overflow-hidden group hover:scale-[1.02] transition-all duration-300 border-2 border-transparent hover:border-hype-magenta relative flex flex-col justify-between">
+                    <!-- Drop Badge -->
+                
+                    
+                    <div>
+                        <!-- Image Container with Hover Zoom -->
+                        <div class="relative h-56 overflow-hidden bg-black">
+                            <img src="https://placehold.co/600x400/ff007f/ffffff?text=NEON+METRICS+V1" alt="Project 1" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 opacity-90">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80"></div>
+                        </div>
+
+                        <!-- Content -->
+                        <div class="p-6 space-y-3">
+                            <div class="flex justify-between items-center">
+                                <span class="font-space text-xs text-hype-cyan">// REALTIME ANALYTICS</span>
+                                <button onclick="likeProject(1)" class="text-xs font-space text-gray-300 hover:text-hype-magenta">
+                                    <i class="fa-solid fa-heart text-hype-magenta mr-1"></i> <span id="like-count-1">342</span>
+                                </button>
+                            </div>
+                            <h3 class="text-2xl font-syne font-extrabold text-white group-hover:text-hype-magenta transition-colors">HyperMetric Dashboard</h3>
+                            <p class="font-space text-xs text-gray-300 leading-relaxed">
+                                Enterprise real-time telemetry suite processing 50M+ events daily with instant notifications and automated reporting.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Footer Tags & Actions -->
+                    <div class="px-6 pb-6 pt-2 flex justify-between items-center border-t border-white/10 font-space text-xs">
+                        <div class="flex gap-1.5 flex-wrap">
+                            <span class="px-2 py-0.5 rounded bg-white/10 text-[10px]">React</span>
+                            <span class="px-2 py-0.5 rounded bg-white/10 text-[10px]">Node.js</span>
+                            <span class="px-2 py-0.5 rounded bg-white/10 text-[10px]">Kafka</span>
+                        </div>
+                        <button onclick="openModal('HyperMetric Dashboard', 'Enterprise telemetry suite handling real-time data visualisations with low-latency WebSocket communication.', 'https://placehold.co/800x500/ff007f/ffffff?text=HyperMetric+Preview')" class="text-hype-yellow hover:underline font-bold">
+                            View <i class="fa-solid fa-arrow-up-right-from-square ml-1"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Project 2 -->
+                <div class="project-card creative glass-card rounded-3xl overflow-hidden group hover:scale-[1.02] transition-all duration-300 border-2 border-transparent hover:border-hype-cyan relative flex flex-col justify-between">
+                    
+                    <div>
+                        <div class="relative h-56 overflow-hidden bg-black">
+                            <img src="https://placehold.co/600x400/00f0ff/000000?text=SYNTH+STUDIO+80" alt="Project 2" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 opacity-90">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80"></div>
+                        </div>
+
+                        <div class="p-6 space-y-3">
+                            <div class="flex justify-between items-center">
+                                <span class="font-space text-xs text-hype-yellow">// WEBAUDIO DAW</span>
+                                <button onclick="likeProject(2)" class="text-xs font-space text-gray-300 hover:text-hype-magenta">
+                                    <i class="fa-solid fa-heart text-hype-magenta mr-1"></i> <span id="like-count-2">518</span>
+                                </button>
+                            </div>
+                            <h3 class="text-2xl font-syne font-extrabold text-white group-hover:text-hype-cyan transition-colors">VibeSynth DAW Web</h3>
+                            <p class="font-space text-xs text-gray-300 leading-relaxed">
+                                In-browser 8-track digital audio workstation simulating vintage 80s synthesizers with custom WebAudio DSP filters.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="px-6 pb-6 pt-2 flex justify-between items-center border-t border-white/10 font-space text-xs">
+                        <div class="flex gap-1.5 flex-wrap">
+                            <span class="px-2 py-0.5 rounded bg-white/10 text-[10px]">WebAudio</span>
+                            <span class="px-2 py-0.5 rounded bg-white/10 text-[10px]">Vue3</span>
+                            <span class="px-2 py-0.5 rounded bg-white/10 text-[10px]">Tailwind</span>
+                        </div>
+                        <button onclick="openModal('VibeSynth DAW Web', 'Browser audio synthesizer engine with MIDI controller integration and audio export.', 'https://placehold.co/800x500/00f0ff/000000?text=VibeSynth+Preview')" class="text-hype-yellow hover:underline font-bold">
+                            View <i class="fa-solid fa-arrow-up-right-from-square ml-1"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Project 3 -->
+                <div class="project-card ai glass-card rounded-3xl overflow-hidden group hover:scale-[1.02] transition-all duration-300 border-2 border-transparent hover:border-hype-yellow relative flex flex-col justify-between">
+                   
+                    
+                    <div>
+                        <div class="relative h-56 overflow-hidden bg-black">
+                            <img src="https://placehold.co/600x400/ffe600/000000?text=PROMPT+ENGINE+CLI" alt="Project 3" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 opacity-90">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80"></div>
+                        </div>
+
+                        <div class="p-6 space-y-3">
+                            <div class="flex justify-between items-center">
+                                <span class="font-space text-xs text-hype-magenta">// AI DEV TOOLING</span>
+                                <button onclick="likeProject(3)" class="text-xs font-space text-gray-300 hover:text-hype-magenta">
+                                    <i class="fa-solid fa-heart text-hype-magenta mr-1"></i> <span id="like-count-3">289</span>
+                                </button>
+                            </div>
+                            <h3 class="text-2xl font-syne font-extrabold text-white group-hover:text-hype-yellow transition-colors">PromptPilot CLI</h3>
+                            <p class="font-space text-xs text-gray-300 leading-relaxed">
+                                Terminal command line utility for AI prompt optimization, automated code reviews, and micro-refactoring pipelines.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="px-6 pb-6 pt-2 flex justify-between items-center border-t border-white/10 font-space text-xs">
+                        <div class="flex gap-1.5 flex-wrap">
+                            <span class="px-2 py-0.5 rounded bg-white/10 text-[10px]">Python</span>
+                            <span class="px-2 py-0.5 rounded bg-white/10 text-[10px]">OpenAI</span>
+                            <span class="px-2 py-0.5 rounded bg-white/10 text-[10px]">Docker</span>
+                        </div>
+                        <button onclick="openModal('PromptPilot CLI', 'DevTool for engineering teams to optimize multi-modal prompts and automate code sanity checks.', 'https://placehold.co/800x500/ffe600/000000?text=PromptPilot+Preview')" class="text-hype-yellow hover:underline font-bold">
+                            View <i class="fa-solid fa-arrow-up-right-from-square ml-1"></i>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- HOLOGRAPHIC SKILLS GRID -->
+    <section id="skills" class="py-16 px-4 lg:px-12 relative z-30">
+        <div class="max-w-6xl mx-auto space-y-12">
+            
+            <div class="border-b border-white/10 pb-6">
+                <span class="font-space text-xs font-extrabold text-hype-yellow tracking-widest">// STACK LOADOUT</span>
+                <h2 class="text-4xl md:text-5xl font-syne font-black">SKILLS & TOOLS.</h2>
+            </div>
+
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                
+                <!-- Skill Pill 1 -->
+                <div class="glass-card p-4 rounded-2xl flex flex-col items-center justify-center gap-2 group hover:border-hype-magenta hover:shadow-[0_0_20px_rgba(255,0,127,0.4)] transition-all">
+                    <i class="fa-brands fa-react text-3xl text-hype-cyan group-hover:scale-125 transition-transform"></i>
+                    <span class="font-space font-bold text-xs text-white">React / Next</span>
+                </div>
+
+                <!-- Skill Pill 2 -->
+                <div class="glass-card p-4 rounded-2xl flex flex-col items-center justify-center gap-2 group hover:border-hype-cyan hover:shadow-[0_0_20px_rgba(0,240,255,0.4)] transition-all">
+                    <i class="fa-brands fa-node-js text-3xl text-hype-lime group-hover:scale-125 transition-transform"></i>
+                    <span class="font-space font-bold text-xs text-white">Node.js</span>
+                </div>
+
+                <!-- Skill Pill 3 -->
+                <div class="glass-card p-4 rounded-2xl flex flex-col items-center justify-center gap-2 group hover:border-hype-yellow hover:shadow-[0_0_20px_rgba(255,230,0,0.4)] transition-all">
+                    <i class="fa-brands fa-js text-3xl text-hype-yellow group-hover:scale-125 transition-transform"></i>
+                    <span class="font-space font-bold text-xs text-white">TypeScript</span>
+                </div>
+
+                <!-- Skill Pill 4 -->
+                <div class="glass-card p-4 rounded-2xl flex flex-col items-center justify-center gap-2 group hover:border-hype-magenta hover:shadow-[0_0_20px_rgba(255,0,127,0.4)] transition-all">
+                    <i class="fa-brands fa-python text-3xl text-blue-400 group-hover:scale-125 transition-transform"></i>
+                    <span class="font-space font-bold text-xs text-white">Python</span>
+                </div>
+
+                <!-- Skill Pill 5 -->
+                <div class="glass-card p-4 rounded-2xl flex flex-col items-center justify-center gap-2 group hover:border-hype-purple hover:shadow-[0_0_20px_rgba(112,0,255,0.4)] transition-all">
+                    <i class="fa-solid fa-database text-3xl text-hype-magenta group-hover:scale-125 transition-transform"></i>
+                    <span class="font-space font-bold text-xs text-white">PostgreSQL</span>
+                </div>
+
+                <!-- Skill Pill 6 -->
+                <div class="glass-card p-4 rounded-2xl flex flex-col items-center justify-center gap-2 group hover:border-hype-cyan hover:shadow-[0_0_20px_rgba(0,240,255,0.4)] transition-all">
+                    <i class="fa-brands fa-aws text-3xl text-amber-500 group-hover:scale-125 transition-transform"></i>
+                    <span class="font-space font-bold text-xs text-white">AWS Cloud</span>
+                </div>
+
+                <!-- Skill Pill 7 -->
+                <div class="glass-card p-4 rounded-2xl flex flex-col items-center justify-center gap-2 group hover:border-hype-lime hover:shadow-[0_0_20px_rgba(57,255,20,0.4)] transition-all">
+                    <i class="fa-brands fa-docker text-3xl text-blue-500 group-hover:scale-125 transition-transform"></i>
+                    <span class="font-space font-bold text-xs text-white">Docker</span>
+                </div>
+
+                <!-- Skill Pill 8 -->
+                <div class="glass-card p-4 rounded-2xl flex flex-col items-center justify-center gap-2 group hover:border-hype-magenta hover:shadow-[0_0_20px_rgba(255,0,127,0.4)] transition-all">
+                    <i class="fa-brands fa-figma text-3xl text-pink-400 group-hover:scale-125 transition-transform"></i>
+                    <span class="font-space font-bold text-xs text-white">Figma / UI</span>
+                </div>
+
+                <!-- Skill Pill 9 -->
+                <div class="glass-card p-4 rounded-2xl flex flex-col items-center justify-center gap-2 group hover:border-hype-yellow hover:shadow-[0_0_20px_rgba(255,230,0,0.4)] transition-all">
+                    <i class="fa-solid fa-cubes text-3xl text-hype-cyan group-hover:scale-125 transition-transform"></i>
+                    <span class="font-space font-bold text-xs text-white">GraphQL</span>
+                </div>
+
+                <!-- Skill Pill 10 -->
+                <div class="glass-card p-4 rounded-2xl flex flex-col items-center justify-center gap-2 group hover:border-hype-purple hover:shadow-[0_0_20px_rgba(112,0,255,0.4)] transition-all">
+                    <i class="fa-brands fa-git-alt text-3xl text-orange-500 group-hover:scale-125 transition-transform"></i>
+                    <span class="font-space font-bold text-xs text-white">Git Workflows</span>
+                </div>
+
+                <!-- Skill Pill 11 -->
+                <div class="glass-card p-4 rounded-2xl flex flex-col items-center justify-center gap-2 group hover:border-hype-cyan hover:shadow-[0_0_20px_rgba(0,240,255,0.4)] transition-all">
+                    <i class="fa-solid fa-wand-magic-sparkles text-3xl text-hype-yellow group-hover:scale-125 transition-transform"></i>
+                    <span class="font-space font-bold text-xs text-white">Three.js / WebGL</span>
+                </div>
+
+                <!-- Skill Pill 12 -->
+                <div class="glass-card p-4 rounded-2xl flex flex-col items-center justify-center gap-2 group hover:border-hype-lime hover:shadow-[0_0_20px_rgba(57,255,20,0.4)] transition-all">
+                    <i class="fa-solid fa-bolt text-3xl text-hype-lime group-hover:scale-125 transition-transform"></i>
+                    <span class="font-space font-bold text-xs text-white">Tailwind CSS</span>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- TIMELINE & CAREER EXPERIENCE -->
+    <section id="experience" class="py-16 px-4 lg:px-12 relative z-30">
+        <div class="max-w-4xl mx-auto space-y-12">
+            
+            <div class="border-b border-white/10 pb-6">
+                <span class="font-space text-xs font-extrabold text-hype-lime tracking-widest">// EXPERIENCE CHRONICLES</span>
+                <h2 class="text-4xl md:text-5xl font-syne font-black">CAREER TIMELINE.</h2>
+            </div>
+
+            <div class="space-y-8 relative before:absolute before:inset-0 before:left-4 md:before:left-1/2 before:w-0.5 before:bg-gradient-to-b before:from-hype-magenta before:via-hype-cyan before:to-hype-yellow">
+                
+                <!-- Timeline Item 1 -->
+                <div class="relative flex flex-col md:flex-row items-start md:items-center group">
+                    <div class="flex items-center justify-center w-8 h-8 rounded-full bg-hype-magenta text-black font-extrabold font-space text-xs z-10 shadow-[0_0_15px_rgba(255,0,127,0.8)] md:mx-auto">
+                        01
+                    </div>
+                    <div class="glass-card p-6 rounded-3xl w-full md:w-[calc(50%-2rem)] mt-3 md:mt-0 md:group-even:ml-auto space-y-2 border-l-4 border-l-hype-magenta">
+                        <div class="flex justify-between items-baseline font-space">
+                            <h3 class="font-syne font-extrabold text-lg text-white">Staff Software Engineer</h3>
+                            <span class="text-xs text-hype-yellow font-bold">2022 - PRESENT</span>
+                        </div>
+                        <h4 class="font-space text-xs text-hype-cyan font-bold">TechCorp Systems Inc.</h4>
+                        <p class="font-space text-xs text-gray-300 leading-relaxed">
+                            Lead engineer scaling micro-frontend architectures serving 2M daily active users. Improved CI/CD release cadence by 45%.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Timeline Item 2 -->
+                <div class="relative flex flex-col md:flex-row items-start md:items-center group">
+                    <div class="flex items-center justify-center w-8 h-8 rounded-full bg-hype-cyan text-black font-extrabold font-space text-xs z-10 shadow-[0_0_15px_rgba(0,240,255,0.8)] md:mx-auto">
+                        02
+                    </div>
+                    <div class="glass-card p-6 rounded-3xl w-full md:w-[calc(50%-2rem)] mt-3 md:mt-0 md:group-even:ml-auto space-y-2 border-l-4 border-l-hype-cyan">
+                        <div class="flex justify-between items-baseline font-space">
+                            <h3 class="font-syne font-extrabold text-lg text-white">Senior Full-Stack Dev</h3>
+                            <span class="text-xs text-hype-yellow font-bold">2019 - 2022</span>
+                        </div>
+                        <h4 class="font-space text-xs text-hype-magenta font-bold">DataScale Labs</h4>
+                        <p class="font-space text-xs text-gray-300 leading-relaxed">
+                            Designed high-throughput REST & GraphQL APIs with Node.js and AWS Redis cache clusters, cutting response latency by 35%.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Timeline Item 3 -->
+                <div class="relative flex flex-col md:flex-row items-start md:items-center group">
+                    <div class="flex items-center justify-center w-8 h-8 rounded-full bg-hype-yellow text-black font-extrabold font-space text-xs z-10 shadow-[0_0_15px_rgba(255,230,0,0.8)] md:mx-auto">
+                        03
+                    </div>
+                    <div class="glass-card p-6 rounded-3xl w-full md:w-[calc(50%-2rem)] mt-3 md:mt-0 md:group-even:ml-auto space-y-2 border-l-4 border-l-hype-yellow">
+                        <div class="flex justify-between items-baseline font-space">
+                            <h3 class="font-syne font-extrabold text-lg text-white">UI/UX Web Developer</h3>
+                            <span class="text-xs text-hype-yellow font-bold">2017 - 2019</span>
+                        </div>
+                        <h4 class="font-space text-xs text-hype-lime font-bold">Pixel Perfect Agency</h4>
+                        <p class="font-space text-xs text-gray-300 leading-relaxed">
+                            Crafted high-vibe interactive client websites, promotional web apps, and WebGL animations for global pop culture brands.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- CONTACT SECTION -->
+    <section id="contact" class="py-20 px-4 lg:px-12 relative z-30">
+        <div class="max-w-4xl mx-auto glass-card p-8 md:p-12 rounded-3xl border-2 border-hype-magenta/50 space-y-8 relative overflow-hidden">
+            
+            <div class="absolute -right-12 -bottom-12 w-64 h-64 bg-hype-magenta/20 rounded-full blur-3xl pointer-events-none"></div>
+
+            <div class="text-center space-y-3">
+                <span class="font-space text-xs font-extrabold text-hype-cyan tracking-widest">// START A CONVERSATION</span>
+                <h2 class="text-4xl md:text-6xl font-syne font-black">LET'S BUILD THE FUTURE.</h2>
+                <p class="font-space text-sm text-gray-300 max-w-lg mx-auto">
+                    Got a project in mind or looking for a senior full-stack engineer? Drop a message below!
+                </p>
+            </div>
+
+            <!-- Form -->
+            <form onsubmit="handleContactSubmit(event)" class="space-y-4 font-space">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <input type="text" required placeholder="Your Name / Handle" class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/20 text-white placeholder-gray-400 outline-none focus:border-hype-magenta transition-colors text-sm">
+                    <input type="email" required placeholder="Your Email Address" class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/20 text-white placeholder-gray-400 outline-none focus:border-hype-cyan transition-colors text-sm">
+                </div>
+                <textarea rows="4" required placeholder="Project Details / Message..." class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/20 text-white placeholder-gray-400 outline-none focus:border-hype-yellow transition-colors text-sm resize-none"></textarea>
+                
+                <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-2">
+                    <div id="contact-status" class="text-xs font-bold text-hype-yellow"></div>
+                    <button type="submit" class="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-gradient-to-r from-hype-magenta via-hype-purple to-hype-cyan text-white font-syne font-black text-sm uppercase tracking-wider hype-shadow hover:scale-105 transition-transform">
+                        Send Message <i class="fa-solid fa-paper-plane ml-2"></i>
+                    </button>
+                </div>
+            </form>
+
+            <!-- Quick Copy Social Tags -->
+            <div class="pt-6 border-t border-white/10 flex flex-wrap justify-center gap-3 font-space text-xs">
+                <button onclick="copyToClipboard('alex.mercer@dev.io')" class="px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 flex items-center gap-2 transition-colors">
+                    <i class="fa-solid fa-envelope text-hype-magenta"></i> alex.mercer@dev.io
+                </button>
+                <button onclick="copyToClipboard('alex_dev#1337')" class="px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 flex items-center gap-2 transition-colors">
+                    <i class="fa-brands fa-discord text-hype-cyan"></i> alex_dev#1337
+                </button>
+                <button onclick="copyToClipboard('@alex_dev_hype')" class="px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 flex items-center gap-2 transition-colors">
+                    <i class="fa-brands fa-x-twitter text-hype-yellow"></i> @alex_dev_hype
+                </button>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="py-8 px-4 border-t border-white/10 text-center font-space text-xs text-gray-400 relative z-30 space-y-2">
+        <p>© 2016-2026 ALEX MERCER // BUILT WITH VIBRANT VIBES & TAILWIND CSS</p>
+        <p class="text-[10px] text-gray-500">POP CULTURE SCRAPBOOK EDITION • ALL RIGHTS RESERVED</p>
+    </footer>
+
+    <!-- MODAL PREVIEW WINDOW -->
+    <div id="project-modal" class="fixed inset-0 z-[1000] bg-black/80 backdrop-blur-md hidden flex items-center justify-center p-4">
+        <div class="glass-card p-6 md:p-8 rounded-3xl max-w-2xl w-full border-2 border-hype-magenta space-y-4 relative">
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white text-xl">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <h3 id="modal-title" class="text-3xl font-syne font-black text-hype-yellow">Project Title</h3>
+            <img id="modal-img" src="" alt="Preview" class="w-full h-56 object-cover rounded-2xl border border-white/20">
+            <p id="modal-desc" class="font-space text-sm text-gray-300 leading-relaxed"></p>
+            <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-3 border-t border-white/10">
+                <div class="flex items-center gap-2 w-full sm:w-auto">
+                    <a id="modal-live-link" href="#" target="_blank" class="w-full sm:w-auto px-4 py-2 rounded-xl bg-gradient-to-r from-hype-magenta via-hype-purple to-hype-cyan text-white text-xs font-bold font-space uppercase hover:opacity-90 flex items-center justify-center gap-1.5 shadow-lg">
+                        <span>Launch Live App</span> <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                    </a>
+                    <a id="modal-github-link" href="#" target="_blank" class="w-full sm:w-auto px-4 py-2 rounded-xl bg-white/10 text-white text-xs font-bold font-space uppercase hover:bg-white/20 flex items-center justify-center gap-1.5">
+                        <i class="fa-brands fa-github"></i> <span>GitHub</span>
+                    </a>
+                </div>
+                <button onclick="closeModal()" class="px-5 py-2 rounded-xl bg-white/10 text-xs font-bold font-space text-gray-300 hover:text-white w-full sm:w-auto">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT SYSTEM ENGINE -->
+    <script>
+        // Web Audio Synthesizer SFX & Music Player
+        let audioFX = true;
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playSFX(type) {
+            if (!audioFX) return;
+            try {
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+
+                if (type === 'pop') {
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(450, audioCtx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(800, audioCtx.currentTime + 0.06);
+                    gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.06);
+                    osc.start();
+                    osc.stop(audioCtx.currentTime + 0.06);
+                } else if (type === 'click') {
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(300, audioCtx.currentTime);
+                    gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.04);
+                    osc.start();
+                    osc.stop(audioCtx.currentTime + 0.04);
+                }
+            } catch (e) { console.error(e); }
+        }
+
+        function toggleAudioFX() {
+            audioFX = !audioFX;
+            const icon = document.getElementById('sfx-icon');
+            icon.className = audioFX ? 'fa-solid fa-volume-high' : 'fa-solid fa-volume-xmark';
+        }
+
+        // WebAudio Music Loop Synth
+        let isPlayingMusic = false;
+        let musicTimer = null;
+        let currentTrackIndex = 0;
+
+        const playlist = [
+            { title: "Synthpop Sunset '17", artist: "Vaporwave Collective", cover: "https://placehold.co/120x120/ff007f/ffffff?text=VIBE+17" },
+            { title: "Hypebeast Summer", artist: "Neon Dreams", cover: "https://placehold.co/120x120/00f0ff/000000?text=NEON+18" },
+            { title: "2016 Nostalgia Beat", artist: "Retro Boy", cover: "https://placehold.co/120x120/ffe600/000000?text=BEAT+16" }
+        ];
+
+        function togglePlayMusic() {
+            isPlayingMusic = !isPlayingMusic;
+            const playIcon = document.getElementById('play-icon');
+            const vinyl = document.getElementById('vinyl-spin');
+            
+            if (isPlayingMusic) {
+                playIcon.className = "fa-solid fa-pause";
+                vinyl.classList.remove('opacity-0');
+                startSynthLoop();
+            } else {
+                playIcon.className = "fa-solid fa-play";
+                vinyl.classList.add('opacity-0');
+                stopSynthLoop();
+            }
+            playSFX('click');
+        }
+
+        function startSynthLoop() {
+            let step = 0;
+            const notes = [261.63, 329.63, 392.00, 523.25, 440.00, 349.23];
+            musicTimer = setInterval(() => {
+                if (!isPlayingMusic) return;
+                try {
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(notes[step % notes.length], audioCtx.currentTime);
+                    const vol = parseFloat(document.getElementById('volume-slider').value) * 0.05;
+                    gain.gain.setValueAtTime(vol, audioCtx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.2);
+                    osc.start();
+                    osc.stop(audioCtx.currentTime + 0.2);
+                    step++;
+                } catch(e){}
+            }, 300);
+        }
+
+        function stopSynthLoop() {
+            if (musicTimer) clearInterval(musicTimer);
+        }
+
+        function setVolume(val) {
+            // Updated real-time in play interval
+        }
+
+        function nextTrack() {
+            currentTrackIndex = (currentTrackIndex + 1) % playlist.length;
+            updateTrackUI();
+            playSFX('pop');
+        }
+
+        function prevTrack() {
+            currentTrackIndex = (currentTrackIndex - 1 + playlist.length) % playlist.length;
+            updateTrackUI();
+            playSFX('pop');
+        }
+
+        function updateTrackUI() {
+            const track = playlist[currentTrackIndex];
+            document.getElementById('track-title').innerText = track.title;
+            document.getElementById('track-artist').innerText = track.artist;
+            document.getElementById('album-art').src = track.cover;
+        }
+
+        function togglePlayerMinimize() {
+            const body = document.getElementById('player-body');
+            const icon = document.getElementById('min-player-icon');
+            body.classList.toggle('hidden');
+            icon.className = body.classList.contains('hidden') ? 'fa-solid fa-plus' : 'fa-solid fa-minus';
+        }
+
+        // Draggable Sticker Scrapbook Logic
+        let activeSticker = null;
+        let startX, startY, initialX, initialY;
+
+        document.querySelectorAll('.sticker').forEach(sticker => {
+            sticker.addEventListener('mousedown', dragStart);
+            sticker.addEventListener('touchstart', dragStart, {passive: true});
+        });
+
+        function dragStart(e) {
+            activeSticker = e.currentTarget;
+            playSFX('pop');
+            const clientX = e.type === 'touchstart' ? e.touches[0].clientX : e.clientX;
+            const clientY = e.type === 'touchstart' ? e.touches[0].clientY : e.clientY;
+            
+            const rect = activeSticker.getBoundingClientRect();
+            initialX = rect.left;
+            initialY = rect.top;
+            startX = clientX;
+            startY = clientY;
+
+            document.addEventListener('mousemove', drag);
+            document.addEventListener('touchmove', drag, {passive: true});
+            document.addEventListener('mouseup', dragEnd);
+            document.addEventListener('touchend', dragEnd);
+        }
+
+        function drag(e) {
+            if (!activeSticker) return;
+            const clientX = e.type === 'touchmove' ? e.touches[0].clientX : e.clientX;
+            const clientY = e.type === 'touchmove' ? e.touches[0].clientY : e.clientY;
+            
+            const dx = clientX - startX;
+            const dy = clientY - startY;
+
+            activeSticker.style.left = `${initialX + dx}px`;
+            activeSticker.style.top = `${initialY + dy}px`;
+        }
+
+        function dragEnd() {
+            activeSticker = null;
+            document.removeEventListener('mousemove', drag);
+            document.removeEventListener('touchmove', drag);
+            document.removeEventListener('mouseup', dragEnd);
+            document.removeEventListener('touchend', dragEnd);
+        }
+
+        function stampNewSticker() {
+            const container = document.getElementById('sticker-container');
+            const emojis = ['⚡', '💎', '🎮', '💿', '🛸', '🚀', '🔮'];
+            const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)];
+            
+            const div = document.createElement('div');
+            div.className = 'sticker absolute cursor-grab rotate-6';
+            div.style.top = `${Math.random() * 60 + 15}%`;
+            div.style.left = `${Math.random() * 70 + 10}%`;
+            div.innerHTML = `
+                <div class="glass-card px-3 py-1.5 rounded-full border border-hype-yellow flex items-center gap-1.5 shadow-xl">
+                    <span class="text-xl">${randomEmoji}</span>
+                    <span class="font-space text-[10px] font-bold text-hype-yellow uppercase">RAD STICKER</span>
+                </div>
+            `;
+            div.addEventListener('mousedown', dragStart);
+            container.appendChild(div);
+            playSFX('pop');
+        }
+
+        // Project Filters & Likes
+        function filterProjects(category) {
+            playSFX('click');
+            const cards = document.querySelectorAll('.project-card');
+            const btns = document.querySelectorAll('.project-filter-btn');
+
+            btns.forEach(btn => {
+                btn.classList.remove('bg-hype-magenta', 'text-black');
+                btn.classList.add('bg-white/10', 'text-white');
+            });
+            event.currentTarget.classList.add('bg-hype-magenta', 'text-black');
+
+            cards.forEach(card => {
+                if (category === 'all' || card.classList.contains(category)) {
+                    card.classList.remove('hidden');
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+        }
+
+        function likeProject(id) {
+            playSFX('pop');
+            const counter = document.getElementById(`like-count-${id}`);
+            counter.innerText = parseInt(counter.innerText) + 1;
+        }
+
+        // Modal Logic
+        function openModal(title, desc, imgSrc, liveUrl = '#', githubUrl = '#') {
+            playSFX('pop');
+            document.getElementById('modal-title').innerText = title;
+            document.getElementById('modal-desc').innerText = desc;
+            document.getElementById('modal-img').src = imgSrc;
+            
+            const liveBtn = document.getElementById('modal-live-link');
+            const ghBtn = document.getElementById('modal-github-link');
+            
+            if (liveUrl && liveUrl !== '#') {
+                liveBtn.href = liveUrl;
+                liveBtn.classList.remove('hidden');
+            } else {
+                liveBtn.classList.add('hidden');
+            }
+            
+            if (githubUrl && githubUrl !== '#') {
+                ghBtn.href = githubUrl;
+                ghBtn.classList.remove('hidden');
+            } else {
+                ghBtn.classList.add('hidden');
+            }
+
+            document.getElementById('project-modal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            playSFX('click');
+            document.getElementById('project-modal').classList.add('hidden');
+        }
+
+        // Stats Counters
+        function incrementStat(type) {
+            playSFX('pop');
+            if (type === 'coffee') {
+                const el = document.getElementById('stat-coffee');
+                let count = parseInt(el.innerText.replace(',', '')) + 1;
+                el.innerText = count.toLocaleString() + ' cups';
+            } else if (type === 'commits') {
+                const el = document.getElementById('stat-commits');
+                let count = parseInt(el.innerText.replace(',', '')) + 1;
+                el.innerText = count.toLocaleString();
+            }
+        }
+
+        // Contact Form
+        function handleContactSubmit(e) {
+            e.preventDefault();
+            playSFX('pop');
+            const status = document.getElementById('contact-status');
+            status.innerText = "🚀 TRANSMITTING MESSAGE...";
+            setTimeout(() => {
+                status.innerText = "✨ MESSAGE SENT SUCCESSFULLY!";
+                e.target.reset();
+                setTimeout(() => status.innerText = "", 3000);
+            }, 1000);
+        }
+
+        // Clipboard Copy Helper
+        function copyToClipboard(text) {
+            playSFX('click');
+            const dummy = document.createElement("input");
+            document.body.appendChild(dummy);
+            dummy.value = text;
+            dummy.select();
+            document.execCommand("copy");
+            document.body.removeChild(dummy);
+            alert(`Copied to clipboard: ${text}`);
+        }
+
+        // Theme Switcher
+        function toggleTheme() {
+            playSFX('click');
+            const html = document.documentElement;
+            html.classList.toggle('dark');
+            html.classList.toggle('light');
+            const icon = document.getElementById('theme-icon');
+            icon.className = html.classList.contains('light') ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+        }
+
+        // Particle Sparkle Cursor Trail Canvas
+        const canvas = document.getElementById('trail-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        window.addEventListener('mousemove', (e) => {
+            particles.push({
+                x: e.clientX,
+                y: e.clientY,
+                size: Math.random() * 5 + 2,
+                color: ['#ff007f', '#00f0ff', '#ffe600', '#7000ff'][Math.floor(Math.random() * 4)],
+                alpha: 1,
+                vx: (Math.random() - 0.5) * 1.5,
+                vy: (Math.random() - 0.5) * 1.5
+            });
+        });
+
+        function animateTrail() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < particles.length; i++) {
+                let p = particles[i];
+                ctx.globalAlpha = p.alpha;
+                ctx.fillStyle = p.color;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fill();
+
+                p.x += p.vx;
+                p.y += p.vy;
+                p.alpha -= 0.025;
+
+                if (p.alpha <= 0) {
+                    particles.splice(i, 1);
+                    i--;
+                }
+            }
+            requestAnimationFrame(animateTrail);
+        }
+        animateTrail();
+    </script>
+</body>
+</html>
