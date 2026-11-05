@@ -1,0 +1,28 @@
+# ──────────────────────────────────────────────
+# WeatherProj — Hybrid Physics-AI Smog Forecaster
+# Requirements
+# ──────────────────────────────────────────────
+# Install with:
+#   pip install -r requirements.txt
+#
+# GPU / CUDA users — replace the jax install with:
+#   pip install -U "jax[cuda12]"   # CUDA 12
+#   pip install -U "jax[cuda11]"   # CUDA 11
+# See: https://jax.readthedocs.io/en/latest/installation.html
+# ──────────────────────────────────────────────
+
+# Core JAX ecosystem (CPU build — works on any machine)
+jax>=0.4.25
+jaxlib>=0.4.25
+
+# Neural network library built on JAX
+equinox>=0.11.2
+
+# Differentiable ODE / SDE solvers (stiff chemistry integration)
+diffrax>=0.5.0
+
+# Gradient-based optimiser library
+optax>=0.2.2
+
+# Data validation & config schemas
+pydantic>=2.0.0
